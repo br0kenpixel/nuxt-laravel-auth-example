@@ -8,22 +8,27 @@ const form = ref({
     email: "",
     password: ""
 });
+const error = ref(null as null|string);
 
 async function handleRegister() {
+    error.value = null;
+
     const result = await register(form.value.name, form.value.email, form.value.password);
 
-    if(result === true) {
+    if(result.success) {
         navigateTo("/");
         return;
+    } else {
+        error.value = result.message!;
     }
-
-    console.error(result);
 }
 </script>
 
 <template>
     <div>
         <p>Register :)</p>
+
+        <p v-show="error !== null" style="color: red;">Error: {{ error }}</p>
 
         <form @submit.prevent="handleRegister">
             <label for="name" class="name">Name</label>

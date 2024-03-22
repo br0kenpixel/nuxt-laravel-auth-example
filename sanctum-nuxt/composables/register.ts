@@ -1,6 +1,6 @@
-const client = useSanctumClient();
-
 export const register = async (name: string, email: string, password: string) => {
+    const client = useSanctumClient();
+
     const result = await useAsyncData("register", () =>
         client("/register", {
             method: 'POST',
@@ -13,9 +13,16 @@ export const register = async (name: string, email: string, password: string) =>
         })
     );
 
+    let return_val = {
+        success: false,
+        message: undefined as undefined | string
+    };
+
     if (result.data.value === undefined && result.error.value === null) {
-        return true;
+        return_val.success = true;
     } else {
-        return result.error.value!;
+        return_val.message = ((result.error.value) as any).data.message as string;
     }
+
+    return return_val;
 }
