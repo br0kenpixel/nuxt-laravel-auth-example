@@ -30,22 +30,3 @@ async function handleLogin() {
         </form>
     </div>
 </template>
-
-<!--<script lang="ts">
-export default {
-    data() {
-        return {
-            email: "test@example.com",
-            password: "password"
-        };
-    },
-    methods: {
-        async handleLogin() {
-            await login({
-                username: this.email,
-                password: this.password
-            });
-        }
-    }
-}
-</script>-->
