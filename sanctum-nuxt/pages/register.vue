@@ -3,8 +3,6 @@ definePageMeta({
     middleware: ['sanctum:guest'],
 });
 
-const client = useSanctumClient();
-
 const form = ref({
     name: "",
     email: "",
@@ -12,21 +10,14 @@ const form = ref({
 });
 
 async function handleRegister() {
-    const {data, pending, error, refresh} = await useAsyncData("register", () => 
-        client("/register", {
-            method: 'POST',
-            body: {
-                name: form.value.name,
-                email: form.value.email,
-                password: form.value.password,
-                password_confirmation: form.value.password
-            }
-        })
-    );
+    const result = await register(form.value.name, form.value.email, form.value.password);
 
-    if (data.value === undefined && error.value === null) {
+    if(result === true) {
         navigateTo("/");
+        return;
     }
+
+    console.error(result);
 }
 </script>
 
